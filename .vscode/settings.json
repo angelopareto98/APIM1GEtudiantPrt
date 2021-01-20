@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Gestion de notes M1",
+            "database": "gestion_de_notes_prjm1",
+            "username": "root",
+            "password": "root"
+        }
+    ]
+}
