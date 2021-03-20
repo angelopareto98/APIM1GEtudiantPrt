@@ -10,27 +10,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if ($_SERVER['REQUEST_METHOD'] == 'PUT') { 
    // On inclut les fichiers de configuration et d'acces aux donnees
    include_once '../configuration/Connexion.php';
-   include_once '../entity/Etudiant.php';
+   include_once '../entity/Notes.php';
 
    // On instancie la base de donnees
    $database = new Connexion();
    $db = $database->getConnection();
 
    // On instancie les Etudiants
-   $etudiant = new Etudiant($db);
+   $notes = new Notes($db);
 
    // On recupere les information envoyees
    $donnees = json_decode(file_get_contents("php://input"));
     
-    if (!empty($donnees->numEt) && !empty($donnees->nomEt) && !empty($donnees->niveauEt)) {
+    if (!empty($donnees->numInscription) && !empty($donnees->numEt) && !empty($donnees->codeMat) && !empty($donnees->note)) {
         //  Ici on a recu les donnees
         // On hydrate notre objet
-        $etudiant->numEt = $donnees->numEt;
-        $etudiant->nomEt = $donnees->nomEt;
-        $etudiant->niveauEt = $donnees->niveauEt;
+        $notes->numInscription = $donnees->numInscription;
+        $notes->numEt = $donnees->numEt;
+        $notes->codeMat = $donnees->codeMat;
+        $notes->note = $donnees->note;
 
 
-        if ($etudiant->modifierEtudiant()) {
+        if ($notes->modifierNotes()) {
             /// Ici la creation a fonctionné
             // On envoie un code 200
             http_response_code(200);

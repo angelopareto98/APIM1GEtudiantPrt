@@ -2,7 +2,7 @@
 class Etudiant{
     // Connexion
     private $connexion;
-    private $table = "etudiant";
+    private $table = "Etudiant";
 
     // Proprietés
     public $numEt;
