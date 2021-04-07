@@ -183,14 +183,27 @@ class Etudiant{
 
 
 
+    /**
+     * Fonction pour la classification des étudiants par ordre de merite
+     *
+     * @return void
+     */
+    public function classementEtudiant(){
+        $sql = "SELECT numEt, nomEt, moyenne
+        FROM " .$this->table. " WHERE niveauEt=:niveauEt ORDER BY moyenne DESC
+        ";
 
+        $query = $this->connexion->prepare($sql);
 
+        $this->niveauEt=htmlspecialchars(strip_tags($this->niveauEt));
+        $query->bindParam(":niveauEt", $this->niveauEt);
 
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
 
-
-
-
-
+    }
 
 
 

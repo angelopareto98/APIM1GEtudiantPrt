@@ -38,12 +38,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // On parcourt l'etudiant
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
-
+            $tableauEtudiants['numEt'] =$numEt;
+            $tableauEtudiants['nomEt'] =$nomEt;
+            $tableauEtudiants['niveauEt'] =$niveauEt;
             $note =[
-                "Numero d'Etudiant" => $numEt,
-                "Nom" => $nomEt,
                 "libelle matiere" => $libelleMat,
-                "Niveau" => $niveauEt,
                 "Notes" => $note,
                 "Coefficient matiere" => $coefMat
             ];

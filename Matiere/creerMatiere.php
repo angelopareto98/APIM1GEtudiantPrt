@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }else { echo json_encode(["message" => "Vous avez oublier une proprietée ou ..."]);} 
 }else{
-    // On gere l'erreur
     http_response_code(405);
     echo json_encode(["message" => "La methode n'est pas autorisée"]);
 

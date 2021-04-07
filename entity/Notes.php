@@ -76,15 +76,6 @@ class Notes{
 
 
 
-
-
-
-
-    // // Variable pour les Jointures
-    // public $nomEt;
-    // public $niveauEt;
-    // public $libelleMat;
-    // public $coefMat;
     public $table2 = "Etudiant";
     public $table3 = "Matiere";
     /**
@@ -93,11 +84,6 @@ class Notes{
      * @return void
      */
     public function afficherNotesEtudiant(){
-        // $sql = "SELECT e.numEt, e.nomEt, e.niveauEt, m.libelleMat, m.coefMat, n.notes FROM" 
-        //         .$this->table.
-        //         " AS n LEFT JOIN Matiere AS m ON n.codeMat = m.codeMat
-        //          LEFT JOIN Etudiant AS e ON n.numEt = e.numEt
-        //           WHERE numInscription = :numInscription";
         $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt, e.niveauEt AS niveauEt,
         m.libelleMat AS libelleMat, m.coefMat AS coefMat,
         n.note AS note
@@ -234,28 +220,25 @@ class Notes{
     }
 
 
-    /**
-     * Fonction pour la classification des étudiants par ordre de merite
-     *
-     * @return void
-     */
-    public function classementEtudiant(){
-        $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt
-        FROM " .$this->table2. " As e
-        WHERE niveauEt = :niveauEt
-        ";
+    // Insertion de la moyenne
+    public function moyenneInsert()
+    {
+        $sql = "UPDATE Etudiant SET  moyenne=(SELECT AVG(note) as moyenne From Notes WHERE numInscription = :numInscription) 
+                WHERE numEt=:numEt";
 
         $query = $this->connexion->prepare($sql);
 
-        $this->niveauEt=htmlspecialchars(strip_tags($this->niveauEt));
-        $query->bindParam(":niveauEt", $this->niveauEt);
+        $this->numInscription=htmlspecialchars(strip_tags($this->numInscription));
+        $this->numEt=htmlspecialchars(strip_tags($this->numEt));
+        $query->bindParam(":numInscription", $this->numInscription);
+        $query->bindParam(":numEt", $this->numEt);
 
         if ($query->execute()) {
             return $query;
         }
         return false;
-
     }
+
 
 
 }

@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($notes->creerNotes()) {
             http_response_code(201);
+            $moy = $notes->moyenneInsert();
+            $moyenne = $moy->fetch(PDO::FETCH_ASSOC);
             echo json_encode(["message" => "L'ajout a été effectué avec success"]);
         }else{
             http_response_code(503);
