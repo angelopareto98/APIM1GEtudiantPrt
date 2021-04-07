@@ -10,27 +10,27 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // On inclut les fichiers de configuratio et d'acces aux donnees
     include_once '../configuration/Connexion.php';
-    include_once '../entity/Notes.php';
+    include_once '../entity/Etudiant.php';
 
     // On instancie la base de donnees
     $database = new Connexion();
     $db = $database->getConnection();
 
     // On instancie l'etudiant
-    $notes = new Notes($db);
+    $etudiant = new Etudiant($db);
 
-
-      // On recupere les information envoyees
+    // On recupere les information envoyees
    $donnees = json_decode(file_get_contents("php://input"));
     
-   if (!empty($donnees->numInscription)) {
+   if (!empty($donnees->niveauEt)) {
     //  Ici on a recu les donnees
     // On hydrate notre objet
-    $notes->numInscription = $donnees->numInscription;
+    $etudiant->niveauEt = $donnees->niveauEt;
 
        // On recupere les donnees
-    $stmt = $notes->afficherNotesEtudiant();
+    $stmt = $etudiant->afficheEtudiantParNiveau();
 
+    // On verifie si on a au moins 1 etudiant
     if ($stmt->rowCount() > 0) {
         // On initialise un tableau associatif
         $tableauEtudiants = [];
@@ -39,16 +39,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
 
-            $note =[
-                "Numero d'Etudiant" => $numEt,
-                "Nom" => $nomEt,
-                "libelle matiere" => $libelleMat,
-                "Niveau" => $niveauEt,
-                "Notes" => $note,
-                "Coefficient matiere" => $coefMat
-            ];
+            $etud =$nomEt;
 
-            $tableauEtudiants[$notes->numInscription][] = $note;
+            $tableauEtudiants[$etudiant->niveauEt][] = $etud;
         }
 
          // On envoie le code réponse 200 OK
@@ -57,8 +50,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
          // On encode en json et on envoie
          echo json_encode($tableauEtudiants);
         }
+
+
       
-   }else { echo json_encode(["message" => "Vous devez entré le numero d'inscription de l'Etudiant"]);} 
+   }else { echo json_encode(["message" => "Vous devez entré le niveau a Afficher"]);} 
+
 
     }else{
         // On gère l'erreur

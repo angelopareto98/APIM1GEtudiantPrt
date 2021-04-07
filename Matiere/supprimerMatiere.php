@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 
         if ($matiere->supprimerMatiere()) {
             http_response_code(200);
-            echo json_encode(["message" => "Suppression de la matiere est effectuer avec success"]);
+            echo json_encode(["message" => "Suppression de la matiere a été effectuer avec success"]);
         }else{
             http_response_code(503);
             echo json_encode(["message" => "La suppression de la matiere n'a pas été effectuée"]);         

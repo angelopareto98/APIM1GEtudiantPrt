@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 
    // On recupere les information envoyees
    $donnees = json_decode(file_get_contents("php://input"));
-    
+
     if (!empty($donnees->numEt) && !empty($donnees->nomEt) && !empty($donnees->niveauEt)) {
         //  Ici on a recu les donnees
         // On hydrate notre objet

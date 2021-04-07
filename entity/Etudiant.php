@@ -127,6 +127,73 @@ class Etudiant{
         }
         return false;
     }
+
+
+
+    /**
+     * Rechere d' Etudiant par son numero ou son nom
+     */
+    public function recherheEtudiantNumNom(){
+        // requete
+        $sql = "SELECT numEt, nomEt, niveauEt FROM " . $this->table. " WHERE numEt=:numEt OR nomEt=:nomEt";
+
+        // On prépare la requête
+        $query = $this->connexion->prepare($sql);
+
+        // On securise les donnees
+        $this->numEt=htmlspecialchars(strip_tags($this->numEt));
+        $this->nomEt=htmlspecialchars(strip_tags($this->nomEt));
+
+        // On attache le numero d'etudiant
+        $query->bindParam(':nomEt', $this->nomEt);
+        $query->bindParam(':numEt', $this->numEt);
+
+        // Execution
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
+    }
+
+
+
+    /**
+     * Affichage des listes des Etudiant par niveau
+     */
+    public function afficheEtudiantParNiveau(){
+        // requete
+        $sql = "SELECT nomEt FROM " . $this->table. " WHERE niveauEt=:niveauEt";
+
+        // On prépare la requête
+        $query = $this->connexion->prepare($sql);
+
+        // On securise les donnees
+        $this->numEt=htmlspecialchars(strip_tags($this->niveauEt));
+
+        // On attache le numero d'etudiant
+        $query->bindParam(':niveauEt', $this->niveauEt);
+
+        // Execution
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 ?>

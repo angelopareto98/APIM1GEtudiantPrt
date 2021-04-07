@@ -25,7 +25,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if ($stmt->rowCount() > 0) {
         // On initialise un tableau associatif
         $tableauNotes = [];
-        $tableauNotes['Notes et NumInscription'] = [];
 
         // On parcourt l'etudiant
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

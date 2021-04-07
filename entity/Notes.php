@@ -85,38 +85,41 @@ class Notes{
     // public $niveauEt;
     // public $libelleMat;
     // public $coefMat;
-    // /**
-    //  * Fonction pour afficher les informations sur l'Etudiant, Matiere, Notes en utilisant le Jointure
-    //  *
-    //  * @return void
-    //  */
-    // public function afficherNotesEtudiant(){
-    //     // $sql = "SELECT e.numEt, e.nomEt, e.niveauEt, m.libelleMat, m.coefMat, n.notes FROM" 
-    //     //         .$this->table.
-    //     //         " AS n LEFT JOIN Matiere AS m ON n.codeMat = m.codeMat
-    //     //          LEFT JOIN Etudiant AS e ON n.numEt = e.numEt
-    //     //           WHERE numInscription = :numInscription";
-    //     $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt, e.niveauEt AS niveauEt,
-    //     m.libelleMat AS libelleMat, m.coefMat AS coefMat,
-    //     n.note AS note
-    //     FROM Notes AS n
-    //     INNER JOIN Etudiant AS e
-    //     ON n.numEt = e.numEt
-    //     INNER JOIN Matiere AS m
-    //     ON n.codeMat = m.codeMat
-    //     ";
+    public $table2 = "Etudiant";
+    public $table3 = "Matiere";
+    /**
+     * Fonction pour afficher les informations sur l'Etudiant, Matiere, Notes en utilisant le Jointure
+     *
+     * @return void
+     */
+    public function afficherNotesEtudiant(){
+        // $sql = "SELECT e.numEt, e.nomEt, e.niveauEt, m.libelleMat, m.coefMat, n.notes FROM" 
+        //         .$this->table.
+        //         " AS n LEFT JOIN Matiere AS m ON n.codeMat = m.codeMat
+        //          LEFT JOIN Etudiant AS e ON n.numEt = e.numEt
+        //           WHERE numInscription = :numInscription";
+        $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt, e.niveauEt AS niveauEt,
+        m.libelleMat AS libelleMat, m.coefMat AS coefMat,
+        n.note AS note
+        FROM " .$this->table. " AS n
+        INNER JOIN " .$this->table2. " AS e
+        ON n.numEt = e.numEt
+        INNER JOIN " .$this->table3. " AS m
+        ON n.codeMat = m.codeMat
+        WHERE numInscription = :numInscription
+        ";
 
-    //     $query = $this->connexion->prepare($sql);
+        $query = $this->connexion->prepare($sql);
 
-    //     $this->numInscription=htmlspecialchars(strip_tags($this->numInscription));
-    //     $query->bindParam(":numInscription", $this->numInscription);
+        $this->numInscription=htmlspecialchars(strip_tags($this->numInscription));
+        $query->bindParam(":numInscription", $this->numInscription);
 
-    //     if ($query->execute()) {
-    //         return true;
-    //     }
-    //     return false;
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
 
-    // }
+    }
 
 
 
@@ -168,6 +171,92 @@ class Notes{
         }
         return false;
     }
+
+
+
+
+    /**
+     * Fonction pour afficher les informations sur l'Etudiant, Matiere, Notes en utilisant le Jointure
+     *
+     * @return void
+     */
+    public function bulletinNotesEtudiant(){
+        // $req= "SELECT m.coefMat AS coefMat * n.note AS note
+        // FROM " .$this->table. " AS n
+        // INNER JOIN " .$this->table3. " AS m
+        // ON n.codeMat = m.codeMat WHERE numInscription = '686 H-F'";
+        // $reqe = $this->connexion->prepare($req);
+        // var_dump($reqe);
+
+
+        
+        $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt, e.niveauEt AS niveauEt,
+        m.libelleMat AS libelleMat, m.coefMat AS coefMat,
+        n.note AS note, note*coefMat AS pondere
+        FROM " .$this->table. " AS n
+        INNER JOIN " .$this->table2. " AS e
+        ON n.numEt = e.numEt
+        INNER JOIN " .$this->table3. " AS m
+        ON n.codeMat = m.codeMat
+        WHERE numInscription = :numInscription
+        ";
+
+        $query = $this->connexion->prepare($sql);
+
+        $this->numInscription=htmlspecialchars(strip_tags($this->numInscription));
+        $query->bindParam(":numInscription", $this->numInscription);
+
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
+
+    }
+
+    /**
+     * Fonction pour calculer la moyenne
+     *
+     * @return void
+     */
+    public function moyenne(){
+        $sql = "SELECT AVG(note) as moyenne From Notes WHERE numInscription = :numInscription";
+
+        $query = $this->connexion->prepare($sql);
+
+        $this->numInscription=htmlspecialchars(strip_tags($this->numInscription));
+        $query->bindParam(":numInscription", $this->numInscription);
+
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
+
+    }
+
+
+    /**
+     * Fonction pour la classification des étudiants par ordre de merite
+     *
+     * @return void
+     */
+    public function classementEtudiant(){
+        $sql = "SELECT e.numEt AS numEt, e.nomEt AS nomEt
+        FROM " .$this->table2. " As e
+        WHERE niveauEt = :niveauEt
+        ";
+
+        $query = $this->connexion->prepare($sql);
+
+        $this->niveauEt=htmlspecialchars(strip_tags($this->niveauEt));
+        $query->bindParam(":niveauEt", $this->niveauEt);
+
+        if ($query->execute()) {
+            return $query;
+        }
+        return false;
+
+    }
+
 
 }
 

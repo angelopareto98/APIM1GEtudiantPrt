@@ -29,7 +29,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $notes->numInscription = $donnees->numInscription;
 
        // On recupere les donnees
-    $stmt = $notes->afficherNotesEtudiant();
+    $stmt = $notes->bulletinNotesEtudiant();
+   
 
     if ($stmt->rowCount() > 0) {
         // On initialise un tableau associatif
@@ -38,18 +39,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         // On parcourt l'etudiant
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             extract($row);
+            // Code pour executer et calculer la moyenne
+            $moy = $notes->moyenne();
+            $moyenne = $moy->fetch(PDO::FETCH_ASSOC);
+            // extract($moyenne);
 
             $note =[
                 "Numero d'Etudiant" => $numEt,
                 "Nom" => $nomEt,
-                "libelle matiere" => $libelleMat,
                 "Niveau" => $niveauEt,
+                "libelle matiere" => $libelleMat,
+                "Coefficient matiere" => $coefMat,
                 "Notes" => $note,
-                "Coefficient matiere" => $coefMat
+                "Note Ponderee" => $pondere
             ];
 
             $tableauEtudiants[$notes->numInscription][] = $note;
         }
+        
+        $tableauEtudiants["Moyenne"] = $moyenne;
+
+        // Mbola tsy mety e Message d'observation io
+        // if ($moyenne >= 10) {
+        //     $tableauEtudiants["Observation"] = "Admis";
+        // } elseif (10 > $moyenne && $moyenne >= 7.5) {
+        //     $tableauEtudiants["Observation"] = "Redoublant";
+        // } else {
+        //     $tableauEtudiants["Observation"] = "Exclus";
+        // }
 
          // On envoie le code réponse 200 OK
          http_response_code(200);
