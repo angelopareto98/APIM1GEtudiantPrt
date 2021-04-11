@@ -34,14 +34,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Ici la creation a fonctionné
             // On envoie un code 201
             http_response_code(201);
-            echo json_encode(["message" => "L'ajout a ete effectue avec success"]);
+            echo json_encode([
+                "message" => "L'ajout a été effectuer avec success",
+                "notif" => "OK!!!"]);
         }else{
             // Ici la creation n'a pas fonctionné
             // On envoie un code 503
             http_response_code(503);
-            echo json_encode(["message" => "L'ajout n'a pas ete effectue (Ce numero appartient a quelqu'un d'autres)"]);
+            echo json_encode(["message" => "L'ajout n'a pas été effectuer (Ce numero appartient a quelqu'un d'autres)"]);
         }
-    }else { echo json_encode(["message" => "Vous avez oublier une proprietée ou ..."]);} 
+    }else { 
+        echo json_encode([
+            "message" => "Vous avez oublier une proprietée ou ...",
+            "notif" => "PAS OK!!!"]);
+    } 
 }else{
     // On gere l'erreur
     http_response_code(405);

@@ -162,7 +162,7 @@ class Etudiant{
      */
     public function afficheEtudiantParNiveau(){
         // requete
-        $sql = "SELECT nomEt FROM " . $this->table. " WHERE niveauEt=:niveauEt";
+        $sql = "SELECT nomEt FROM " . $this->table. " WHERE niveauEt=:niveauEt ORDER BY nomET ASC";
 
         // On prépare la requête
         $query = $this->connexion->prepare($sql);

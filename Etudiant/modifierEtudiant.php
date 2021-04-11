@@ -34,14 +34,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             /// Ici la creation a fonctionné
             // On envoie un code 200
             http_response_code(200);
-            echo json_encode(["message" => "La modification a été effectuée"]);
+            echo json_encode([
+                "message" => "La modification a été effectuer",
+                "notif" => "OK!!!"]);
         }else{
             // Ici la création n'a pas fonctionné
             // On envoie un code 503
             http_response_code(503);
-            echo json_encode(["message" => "La modification n'a pas été effectuée"]); 
+            echo json_encode([
+                "message" => "La modification n'a pas été effectuer",
+                "notif" => "Erreur"]); 
         }
-    }else { echo json_encode(["message" => "Vous avez oublier une proprietée ou ..."]);} 
+    }else { echo json_encode([
+        "message" => "Vous avez oublier une proprietée ou ...",
+        "notif" => "PAS OK!!!"]);} 
 
 }else{
     // On gère l'erreur

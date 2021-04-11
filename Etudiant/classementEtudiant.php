@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 "Moyenne" => $moyenne
             ];
 
-            $tableauEtudiants[$notes->numInscription][] = $note;
+            $tableauEtudiants['classement'][] = $note;
         }
 
          // On envoie le code réponse 200 OK
